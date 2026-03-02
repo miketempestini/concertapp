@@ -11,6 +11,7 @@ import CoreData
 
 struct ConcertDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var concert: Concert
     
     @State private var showingEditSheet = false
@@ -147,19 +148,46 @@ struct ConcertDetailView: View {
                 }
                 
                 // Setlist URL
-                if let setlistURL = concert.setlistURL, !setlistURL.isEmpty, let url = URL(string: setlistURL) {
+                if let setlistURL = concert.setlistURL, !setlistURL.isEmpty {
                     Divider()
                     
-                    Link(destination: url) {
-                        HStack {
-                            Label("View Setlist", systemImage: "music.note.list")
-                            Spacer()
-                            Image(systemName: "arrow.up.right")
+                    // Validate URL before showing link
+                    if let url = URL(string: setlistURL), UIApplication.shared.canOpenURL(url) {
+                        Link(destination: url) {
+                            HStack {
+                                Label("View Setlist", systemImage: "music.note.list")
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
+                            }
+                            .font(.headline)
+                            .foregroundStyle(.blue)
                         }
-                        .font(.headline)
-                        .foregroundStyle(.blue)
+                        .padding(.horizontal)
+                    } else {
+                        // Invalid URL - show as text with option to search instead
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Setlist URL (Invalid)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Text(setlistURL)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                            
+                            Button {
+                                searchForSetlist()
+                            } label: {
+                                HStack {
+                                    Label("Search for Setlist", systemImage: "magnifyingglass")
+                                    Spacer()
+                                    Image(systemName: "safari")
+                                        .font(.caption)
+                                }
+                                .font(.headline)
+                                .foregroundStyle(.blue)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                 } else {
                     // Show search button when no setlist URL exists
                     Divider()
@@ -224,7 +252,10 @@ struct ConcertDetailView: View {
             }
         }
         .sheet(isPresented: $showingEditSheet) {
-            AddEditConcertView(concert: concert)
+            AddEditConcertView(concert: concert, onDelete: {
+                // When concert is deleted, dismiss the detail view
+                dismiss()
+            })
                 .environment(\.managedObjectContext, viewContext)
         }
         .fullScreenCover(item: $showingFullScreenPhoto) { photo in
@@ -282,10 +313,14 @@ struct ConcertDetailView: View {
         // Combine into search query
         let searchQuery = searchComponents.joined(separator: " ")
         
-        // URL encode and create Google search URL
+        // URL encode and create Google search URL with validation
         if let encodedQuery = searchQuery.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: "https://www.google.com/search?q=\(encodedQuery)") {
+           let url = URL(string: "https://www.google.com/search?q=\(encodedQuery)"),
+           UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
+        } else {
+            errorMessage = "Unable to open search. Please check your internet connection."
+            showingErrorAlert = true
         }
     }
     

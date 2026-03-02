@@ -171,7 +171,7 @@ class ConcertExportManager {
             
             // Title
             let titleFont = UIFont.boldSystemFont(ofSize: 18)
-            let title = "My Concert History: \(concerts.count) Concert\(concerts.count == 1 ? "" : "s")"
+            let title = "My Concert History"
             let titleAttributes: [NSAttributedString.Key: Any] = [
                 .font: titleFont,
                 .foregroundColor: UIColor.black

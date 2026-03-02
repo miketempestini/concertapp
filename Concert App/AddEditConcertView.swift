@@ -14,6 +14,21 @@ enum DateEntryMode {
     case yearOnly
 }
 
+// Suggestion data structures
+struct VenueSuggestion: Identifiable {
+    let id = UUID()
+    let venueName: String
+    let city: String
+    let state: String
+}
+
+struct FestivalSuggestion: Identifiable {
+    let id = UUID()
+    let festivalName: String
+    let city: String
+    let state: String
+}
+
 struct AddEditConcertView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
@@ -21,6 +36,7 @@ struct AddEditConcertView: View {
     @StateObject private var viewModel: ConcertViewModel
     
     let concert: Concert?
+    let onDelete: (() -> Void)?
     
     @State private var date = Date()
     @State private var dateEntryMode: DateEntryMode = .exactDate
@@ -39,13 +55,126 @@ struct AddEditConcertView: View {
     @State private var showingError = false
     @State private var errorMessage = ""
     
+    @State private var showingDeleteConfirmation = false
+    
+    @State private var showVenueSuggestions = false
+    @State private var showFestivalSuggestions = false
+    @State private var isSelectingSuggestion = false
+    
     @FocusState private var focusedArtistIndex: Int?
     
     let concertTypes = ["standard", "festival"]
     
-    init(concert: Concert? = nil) {
+    init(concert: Concert? = nil, onDelete: (() -> Void)? = nil) {
         self.concert = concert
+        self.onDelete = onDelete
         _viewModel = StateObject(wrappedValue: ConcertViewModel())
+    }
+    
+    // MARK: - Venue Suggestions
+    
+    var venueSuggestions: [VenueSuggestion] {
+        guard venueName.count >= 3 else { return [] }
+        
+        let fetchRequest: NSFetchRequest<Concert> = Concert.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "concertType == %@", "standard")
+        
+        guard let allConcerts = try? viewContext.fetch(fetchRequest) else { return [] }
+        
+        // Build unique venues
+        var venueMap: [String: (city: String, state: String)] = [:]
+        for concert in allConcerts {
+            let name = concert.wrappedVenueName
+            if !name.isEmpty && name != "Unknown Venue" {
+                venueMap[name] = (city: concert.wrappedCity, state: concert.wrappedState)
+            }
+        }
+        
+        // Filter by search text
+        let searchText = venueName.lowercased()
+        let filtered = venueMap.filter { venueName, _ in
+            venueName.lowercased().contains(searchText)
+        }
+        
+        // Convert to suggestions and sort by closest match
+        let suggestions = filtered.map { name, location in
+            VenueSuggestion(venueName: name, city: location.city, state: location.state)
+        }
+        
+        return sortSuggestions(suggestions, searchText: venueName).prefix(3).map { $0 }
+    }
+    
+    // MARK: - Festival Suggestions
+    
+    var festivalSuggestions: [FestivalSuggestion] {
+        guard festivalName.count >= 3 else { return [] }
+        
+        let fetchRequest: NSFetchRequest<Concert> = Concert.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "concertType == %@", "festival")
+        
+        guard let allFestivals = try? viewContext.fetch(fetchRequest) else { return [] }
+        
+        // Build unique festivals
+        var festivalMap: [String: (city: String, state: String)] = [:]
+        for festival in allFestivals {
+            let name = festival.wrappedFestivalName
+            if !name.isEmpty {
+                festivalMap[name] = (city: festival.wrappedCity, state: festival.wrappedState)
+            }
+        }
+        
+        // Filter by search text
+        let searchText = festivalName.lowercased()
+        let filtered = festivalMap.filter { festName, _ in
+            festName.lowercased().contains(searchText)
+        }
+        
+        // Convert to suggestions and sort by closest match
+        let suggestions = filtered.map { name, location in
+            FestivalSuggestion(festivalName: name, city: location.city, state: location.state)
+        }
+        
+        return sortFestivalSuggestions(suggestions, searchText: festivalName).prefix(3).map { $0 }
+    }
+    
+    // MARK: - Sorting Logic
+    
+    func sortSuggestions(_ suggestions: [VenueSuggestion], searchText: String) -> [VenueSuggestion] {
+        return suggestions.sorted { v1, v2 in
+            let search = searchText.lowercased()
+            let name1 = v1.venueName.lowercased()
+            let name2 = v2.venueName.lowercased()
+            
+            // Exact match first
+            if name1 == search && name2 != search { return true }
+            if name2 == search && name1 != search { return false }
+            
+            // Starts with search text second
+            if name1.hasPrefix(search) && !name2.hasPrefix(search) { return true }
+            if name2.hasPrefix(search) && !name1.hasPrefix(search) { return false }
+            
+            // Both match similarly, sort alphabetically
+            return name1 < name2
+        }
+    }
+    
+    func sortFestivalSuggestions(_ suggestions: [FestivalSuggestion], searchText: String) -> [FestivalSuggestion] {
+        return suggestions.sorted { f1, f2 in
+            let search = searchText.lowercased()
+            let name1 = f1.festivalName.lowercased()
+            let name2 = f2.festivalName.lowercased()
+            
+            // Exact match first
+            if name1 == search && name2 != search { return true }
+            if name2 == search && name1 != search { return false }
+            
+            // Starts with search text second
+            if name1.hasPrefix(search) && !name2.hasPrefix(search) { return true }
+            if name2.hasPrefix(search) && !name1.hasPrefix(search) { return false }
+            
+            // Both match similarly, sort alphabetically
+            return name1 < name2
+        }
     }
     
     var body: some View {
@@ -117,10 +246,124 @@ struct AddEditConcertView: View {
                     
                     // Show festival name for festivals, venue name for standard concerts
                     if concertType == "festival" {
-                        TextField("Festival Name", text: $festivalName)
-                            .autocorrectionDisabled()
+                        VStack(alignment: .leading, spacing: 0) {
+                            TextField("Festival Name", text: $festivalName)
+                                .autocorrectionDisabled()
+                                .onChange(of: festivalName) { newValue in
+                                    // Don't update suggestions if we're in the process of selecting one
+                                    if !isSelectingSuggestion {
+                                        showFestivalSuggestions = !newValue.isEmpty && festivalSuggestions.count > 0
+                                    }
+                                }
+                            
+                            if showFestivalSuggestions && !festivalSuggestions.isEmpty {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    ForEach(festivalSuggestions) { suggestion in
+                                        Button {
+                                            // Set flag to prevent onChange from retriggering
+                                            isSelectingSuggestion = true
+                                            
+                                            // Hide suggestions immediately
+                                            showFestivalSuggestions = false
+                                            
+                                            // Update values
+                                            festivalName = suggestion.festivalName
+                                            if !suggestion.city.isEmpty {
+                                                city = suggestion.city
+                                                state = suggestion.state
+                                            }
+                                            
+                                            // Reset flag after a brief delay
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                isSelectingSuggestion = false
+                                            }
+                                        } label: {
+                                            VStack(alignment: .leading, spacing: 2) {
+                                                Text(suggestion.festivalName)
+                                                    .font(.body)
+                                                    .foregroundStyle(.primary)
+                                                if !suggestion.city.isEmpty {
+                                                    Text("\(suggestion.city), \(suggestion.state)")
+                                                        .font(.caption)
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                            .background(Color(.systemGray6))
+                                        }
+                                        .buttonStyle(.plain)
+                                        
+                                        if suggestion.id != festivalSuggestions.last?.id {
+                                            Divider()
+                                        }
+                                    }
+                                }
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.top, 4)
+                            }
+                        }
                     } else {
-                        TextField("Venue Name", text: $venueName)
+                        VStack(alignment: .leading, spacing: 0) {
+                            TextField("Venue Name", text: $venueName)
+                                .onChange(of: venueName) { newValue in
+                                    // Don't update suggestions if we're in the process of selecting one
+                                    if !isSelectingSuggestion {
+                                        showVenueSuggestions = !newValue.isEmpty && venueSuggestions.count > 0
+                                    }
+                                }
+                            
+                            if showVenueSuggestions && !venueSuggestions.isEmpty {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    ForEach(venueSuggestions) { suggestion in
+                                        Button {
+                                            // Set flag to prevent onChange from retriggering
+                                            isSelectingSuggestion = true
+                                            
+                                            // Hide suggestions immediately
+                                            showVenueSuggestions = false
+                                            
+                                            // Update values
+                                            venueName = suggestion.venueName
+                                            if !suggestion.city.isEmpty {
+                                                city = suggestion.city
+                                                state = suggestion.state
+                                            }
+                                            
+                                            // Reset flag after a brief delay
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                isSelectingSuggestion = false
+                                            }
+                                        } label: {
+                                            VStack(alignment: .leading, spacing: 2) {
+                                                Text(suggestion.venueName)
+                                                    .font(.body)
+                                                    .foregroundStyle(.primary)
+                                                if !suggestion.city.isEmpty {
+                                                    Text("\(suggestion.city), \(suggestion.state)")
+                                                        .font(.caption)
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                            .background(Color(.systemGray6))
+                                        }
+                                        .buttonStyle(.plain)
+                                        
+                                        if suggestion.id != venueSuggestions.last?.id {
+                                            Divider()
+                                        }
+                                    }
+                                }
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .padding(.top, 4)
+                            }
+                        }
                     }
                     
                     TextField("City", text: $city)
@@ -152,6 +395,33 @@ struct AddEditConcertView: View {
                     
                     TextField("Description", text: $concertDescription, axis: .vertical)
                         .lineLimit(3...6)
+                }
+                
+                // Delete button - only show when editing existing concert
+                if concert != nil {
+                    Section {
+                        Button(role: .destructive) {
+                            showingDeleteConfirmation = true
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Delete")
+                                Spacer()
+                            }
+                        }
+                        .confirmationDialog(
+                            "Delete Concert",
+                            isPresented: $showingDeleteConfirmation,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Cancel", role: .cancel) {}
+                            Button("Delete", role: .destructive) {
+                                deleteConcert()
+                            }
+                        } message: {
+                            Text("Are you sure you want to delete this concert?")
+                        }
+                    }
                 }
             }
             .navigationTitle(concert == nil ? "Add Concert" : "Edit Concert")
@@ -440,6 +710,36 @@ struct AddEditConcertView: View {
             print("🔍 Searching for setlist: \(query)")
         } else {
             print("❌ Could not create search URL")
+        }
+    }
+    
+    // MARK: - Delete Function
+    
+    private func deleteConcert() {
+        guard let concert = concert else { return }
+        
+        // Delete the concert from Core Data
+        viewContext.delete(concert)
+        
+        do {
+            try viewContext.save()
+            
+            // Provide haptic feedback
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
+            print("✅ Concert deleted successfully")
+            
+            // Dismiss the edit sheet
+            dismiss()
+            
+            // Call the onDelete closure to dismiss the detail view too
+            onDelete?()
+            
+        } catch {
+            errorMessage = "Failed to delete concert: \(error.localizedDescription)"
+            showingError = true
+            print("❌ Error deleting concert: \(error)")
         }
     }
 }

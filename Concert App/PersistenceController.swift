@@ -7,10 +7,11 @@
 
 import CoreData
 
-struct PersistenceController {
+class PersistenceController {
     static let shared = PersistenceController()
     
     let container: NSPersistentContainer
+    var loadError: Error?
     
     init(inMemory: Bool = false) {
         // Automatically find the correct model name by trying common variations
@@ -32,9 +33,15 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
         
+        // Enable file protection for data encryption at rest
+        if let description = container.persistentStoreDescriptions.first {
+            description.setOption(FileProtectionType.complete as NSObject, 
+                                forKey: NSPersistentStoreFileProtectionKey)
+        }
+        
         container.loadPersistentStores { description, error in
             if let error = error {
-                // Provide more helpful error message
+                // Provide more helpful error message but don't crash
                 print("""
                     ⚠️ Error loading Core Data: \(error.localizedDescription)
                     
@@ -48,9 +55,19 @@ struct PersistenceController {
                     2. Codegen is set to "Manual/None" for all entities
                     3. The file is included in your target
                     """)
-                fatalError("Core Data initialization failed")
+                
+                // Store the error instead of crashing - let the app handle it
+                // This allows showing a user-friendly error screen
+                self.loadError = error
+                
+                // In production, you might want to:
+                // 1. Show an error UI to the user
+                // 2. Offer to reset/recreate the database
+                // 3. Contact support options
+                // For now, we'll let views check for loadError
+            } else {
+                print("✅ Core Data loaded successfully from: \(description.url?.lastPathComponent ?? "unknown")")
             }
-            print("✅ Core Data loaded successfully from: \(description.url?.lastPathComponent ?? "unknown")")
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
