@@ -9,7 +9,25 @@ import SwiftUI
 import CoreData
 
 struct FestivalHistoryView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     let festivalGroup: GroupedFestival
+    
+    @State private var totalUniqueArtists: Int = 0
+    
+    // Recalculate total unique artists from current concert data
+    private func calculateTotalUniqueArtists() -> Int {
+        var allArtists = Set<String>()
+        for concert in festivalGroup.concerts {
+            for artist in concert.artistsArray {
+                let artistName = artist.wrappedName.trimmingCharacters(in: .whitespaces)
+                if !artistName.isEmpty {
+                    allArtists.insert(artistName)
+                }
+            }
+        }
+        return allArtists.count
+    }
     
     var body: some View {
         List {
@@ -33,7 +51,7 @@ struct FestivalHistoryView: View {
                     }
                     Divider()
                     VStack {
-                        Text("\(festivalGroup.totalUniqueArtists)")
+                        Text("\(totalUniqueArtists)")
                             .font(.title)
                             .fontWeight(.bold)
                         Text("Total Artists")
@@ -84,6 +102,12 @@ struct FestivalHistoryView: View {
         }
         .navigationTitle("\(festivalGroup.festivalName) History")
         .navigationBarTitleDisplayMode(.large)
+        .onAppear {
+            totalUniqueArtists = calculateTotalUniqueArtists()
+        }
+        .onChange(of: festivalGroup.concerts.map { $0.artistsArray.count }) { _ in
+            totalUniqueArtists = calculateTotalUniqueArtists()
+        }
     }
 }
 

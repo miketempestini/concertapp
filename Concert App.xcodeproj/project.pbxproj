@@ -16,6 +16,18 @@
 		7C6509E42F54E8590018FD11 /* CityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6509E32F54E8590018FD11 /* CityDetailView.swift */; };
 		7C6509E62F54E8680018FD11 /* ThisYearConcertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6509E52F54E8680018FD11 /* ThisYearConcertsView.swift */; };
 		7C6509E82F54E8920018FD11 /* INTERACTIVE_INSIGHTS_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509E72F54E8920018FD11 /* INTERACTIVE_INSIGHTS_SUMMARY.md */; };
+		7C6509EA2F54EFED0018FD11 /* FestivalHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6509E92F54EFED0018FD11 /* FestivalHistoryView.swift */; };
+		7C6509EC2F54F0120018FD11 /* FESTIVAL_GROUPING_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509EB2F54F0120018FD11 /* FESTIVAL_GROUPING_SUMMARY.md */; };
+		7C6509EE2F54F4D50018FD11 /* VENUE_AUTOCOMPLETE_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509ED2F54F4D50018FD11 /* VENUE_AUTOCOMPLETE_SUMMARY.md */; };
+		7C6509F02F54FC490018FD11 /* ConcertExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6509EF2F54FC490018FD11 /* ConcertExportManager.swift */; };
+		7C6509F22F54FCAA0018FD11 /* EXPORT_BACKUP_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509F12F54FCAA0018FD11 /* EXPORT_BACKUP_SUMMARY.md */; };
+		7C6509F42F55481C0018FD11 /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6509F32F55481C0018FD11 /* PrivacyPolicyView.swift */; };
+		7C6509F62F5548250018FD11 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509F52F5548250018FD11 /* PrivacyInfo.xcprivacy */; };
+		7C6509F82F55489F0018FD11 /* SECURITY_IMPLEMENTATION_SUMMARY.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509F72F55489F0018FD11 /* SECURITY_IMPLEMENTATION_SUMMARY.md */; };
+		7C6509FA2F5548AE0018FD11 /* EMAIL_UPDATE_REQUIRED.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509F92F5548AE0018FD11 /* EMAIL_UPDATE_REQUIRED.md */; };
+		7C6509FC2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FB2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md */; };
+		7C6509FE2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FD2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md */; };
+		7C650A002F5549260018FD11 /* START_HERE.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FF2F5549260018FD11 /* START_HERE.md */; };
 		7C8B593A2F5158A70040C01C /* ConcertApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59382F5158A70040C01C /* ConcertApp.xcdatamodeld */; };
 		7C8B59432F51609B0040C01C /* ConcertApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59412F51609B0040C01C /* ConcertApp.xcdatamodeld */; };
 		7C8B59452F51645D0040C01C /* SimplifiedAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59442F51645D0040C01C /* SimplifiedAppView.swift */; };
@@ -37,6 +49,18 @@
 		7C6509E32F54E8590018FD11 /* CityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDetailView.swift; sourceTree = "<group>"; };
 		7C6509E52F54E8680018FD11 /* ThisYearConcertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisYearConcertsView.swift; sourceTree = "<group>"; };
 		7C6509E72F54E8920018FD11 /* INTERACTIVE_INSIGHTS_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = INTERACTIVE_INSIGHTS_SUMMARY.md; sourceTree = "<group>"; };
+		7C6509E92F54EFED0018FD11 /* FestivalHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FestivalHistoryView.swift; sourceTree = "<group>"; };
+		7C6509EB2F54F0120018FD11 /* FESTIVAL_GROUPING_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FESTIVAL_GROUPING_SUMMARY.md; sourceTree = "<group>"; };
+		7C6509ED2F54F4D50018FD11 /* VENUE_AUTOCOMPLETE_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VENUE_AUTOCOMPLETE_SUMMARY.md; sourceTree = "<group>"; };
+		7C6509EF2F54FC490018FD11 /* ConcertExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertExportManager.swift; sourceTree = "<group>"; };
+		7C6509F12F54FCAA0018FD11 /* EXPORT_BACKUP_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EXPORT_BACKUP_SUMMARY.md; sourceTree = "<group>"; };
+		7C6509F32F55481C0018FD11 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		7C6509F52F5548250018FD11 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7C6509F72F55489F0018FD11 /* SECURITY_IMPLEMENTATION_SUMMARY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SECURITY_IMPLEMENTATION_SUMMARY.md; sourceTree = "<group>"; };
+		7C6509F92F5548AE0018FD11 /* EMAIL_UPDATE_REQUIRED.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EMAIL_UPDATE_REQUIRED.md; sourceTree = "<group>"; };
+		7C6509FB2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_MANIFEST_SETUP.md; sourceTree = "<group>"; };
+		7C6509FD2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_SUBMISSION_CHECKLIST.md; sourceTree = "<group>"; };
+		7C6509FF2F5549260018FD11 /* START_HERE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = START_HERE.md; sourceTree = "<group>"; };
 		7C8B59062F5154060040C01C /* Concert App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Concert App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8B59392F5158A70040C01C /* Concert App .xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Concert App .xcdatamodel"; sourceTree = "<group>"; };
 		7C8B59422F51609B0040C01C /* ConcertApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConcertApp.xcdatamodel; sourceTree = "<group>"; };
@@ -90,6 +114,18 @@
 				7C6509E32F54E8590018FD11 /* CityDetailView.swift */,
 				7C6509E52F54E8680018FD11 /* ThisYearConcertsView.swift */,
 				7C6509E72F54E8920018FD11 /* INTERACTIVE_INSIGHTS_SUMMARY.md */,
+				7C6509E92F54EFED0018FD11 /* FestivalHistoryView.swift */,
+				7C6509EB2F54F0120018FD11 /* FESTIVAL_GROUPING_SUMMARY.md */,
+				7C6509ED2F54F4D50018FD11 /* VENUE_AUTOCOMPLETE_SUMMARY.md */,
+				7C6509EF2F54FC490018FD11 /* ConcertExportManager.swift */,
+				7C6509F12F54FCAA0018FD11 /* EXPORT_BACKUP_SUMMARY.md */,
+				7C6509F32F55481C0018FD11 /* PrivacyPolicyView.swift */,
+				7C6509F52F5548250018FD11 /* PrivacyInfo.xcprivacy */,
+				7C6509F72F55489F0018FD11 /* SECURITY_IMPLEMENTATION_SUMMARY.md */,
+				7C6509F92F5548AE0018FD11 /* EMAIL_UPDATE_REQUIRED.md */,
+				7C6509FB2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md */,
+				7C6509FD2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md */,
+				7C6509FF2F5549260018FD11 /* START_HERE.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,7 +206,16 @@
 				7CDB16B22F5218EB002AD428 /* SEARCH_SETLIST_FEATURE.md in Resources */,
 				7C8B59472F5166260040C01C /* fix_project.sh in Resources */,
 				7C8B59492F51663A0040C01C /* FINAL_FIX_INSTRUCTIONS.md in Resources */,
+				7C6509EC2F54F0120018FD11 /* FESTIVAL_GROUPING_SUMMARY.md in Resources */,
+				7C6509F62F5548250018FD11 /* PrivacyInfo.xcprivacy in Resources */,
+				7C6509FE2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md in Resources */,
+				7C650A002F5549260018FD11 /* START_HERE.md in Resources */,
 				7C6509E82F54E8920018FD11 /* INTERACTIVE_INSIGHTS_SUMMARY.md in Resources */,
+				7C6509F22F54FCAA0018FD11 /* EXPORT_BACKUP_SUMMARY.md in Resources */,
+				7C6509FA2F5548AE0018FD11 /* EMAIL_UPDATE_REQUIRED.md in Resources */,
+				7C6509FC2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md in Resources */,
+				7C6509F82F55489F0018FD11 /* SECURITY_IMPLEMENTATION_SUMMARY.md in Resources */,
+				7C6509EE2F54F4D50018FD11 /* VENUE_AUTOCOMPLETE_SUMMARY.md in Resources */,
 				7C6509D82F54DDAB0018FD11 /* FESTIVAL_CHANGES_SUMMARY.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,8 +229,11 @@
 			files = (
 				7C8B593A2F5158A70040C01C /* ConcertApp.xcdatamodeld in Sources */,
 				7C8B59452F51645D0040C01C /* SimplifiedAppView.swift in Sources */,
+				7C6509F02F54FC490018FD11 /* ConcertExportManager.swift in Sources */,
+				7C6509EA2F54EFED0018FD11 /* FestivalHistoryView.swift in Sources */,
 				7C8B59432F51609B0040C01C /* ConcertApp.xcdatamodeld in Sources */,
 				7C6509DE2F54E8350018FD11 /* VenueListView.swift in Sources */,
+				7C6509F42F55481C0018FD11 /* PrivacyPolicyView.swift in Sources */,
 				7C6509DC2F54E8280018FD11 /* InsightsArtistListView.swift in Sources */,
 				7C6509E42F54E8590018FD11 /* CityDetailView.swift in Sources */,
 				7C6509E02F54E8420018FD11 /* VenueDetailView.swift in Sources */,
