@@ -249,10 +249,10 @@ struct AddEditConcertView: View {
                         VStack(alignment: .leading, spacing: 0) {
                             TextField("Festival Name", text: $festivalName)
                                 .autocorrectionDisabled()
-                                .onChange(of: festivalName) { newValue in
+                                .onChange(of: festivalName) {
                                     // Don't update suggestions if we're in the process of selecting one
                                     if !isSelectingSuggestion {
-                                        showFestivalSuggestions = !newValue.isEmpty && festivalSuggestions.count > 0
+                                        showFestivalSuggestions = !festivalName.isEmpty && festivalSuggestions.count > 0
                                     }
                                 }
                             
@@ -308,10 +308,10 @@ struct AddEditConcertView: View {
                     } else {
                         VStack(alignment: .leading, spacing: 0) {
                             TextField("Venue Name", text: $venueName)
-                                .onChange(of: venueName) { newValue in
+                                .onChange(of: venueName) {
                                     // Don't update suggestions if we're in the process of selecting one
                                     if !isSelectingSuggestion {
-                                        showVenueSuggestions = !newValue.isEmpty && venueSuggestions.count > 0
+                                        showVenueSuggestions = !venueName.isEmpty && venueSuggestions.count > 0
                                     }
                                 }
                             

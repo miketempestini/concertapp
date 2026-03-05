@@ -105,7 +105,7 @@ struct FestivalHistoryView: View {
         .onAppear {
             totalUniqueArtists = calculateTotalUniqueArtists()
         }
-        .onChange(of: festivalGroup.concerts.map { $0.artistsArray.count }) { _ in
+        .onChange(of: festivalGroup.concerts.map { $0.artistsArray.count }) { _, _ in
             totalUniqueArtists = calculateTotalUniqueArtists()
         }
     }
