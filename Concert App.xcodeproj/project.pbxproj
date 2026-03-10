@@ -28,7 +28,6 @@
 		7C6509FC2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FB2F5548C90018FD11 /* PRIVACY_MANIFEST_SETUP.md */; };
 		7C6509FE2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FD2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md */; };
 		7C650A002F5549260018FD11 /* START_HERE.md in Resources */ = {isa = PBXBuildFile; fileRef = 7C6509FF2F5549260018FD11 /* START_HERE.md */; };
-		7C8B593A2F5158A70040C01C /* ConcertApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59382F5158A70040C01C /* ConcertApp.xcdatamodeld */; };
 		7C8B59432F51609B0040C01C /* ConcertApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59412F51609B0040C01C /* ConcertApp.xcdatamodeld */; };
 		7C8B59452F51645D0040C01C /* SimplifiedAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B59442F51645D0040C01C /* SimplifiedAppView.swift */; };
 		7C8B59472F5166260040C01C /* fix_project.sh in Resources */ = {isa = PBXBuildFile; fileRef = 7C8B59462F5166260040C01C /* fix_project.sh */; };
@@ -62,7 +61,6 @@
 		7C6509FD2F5549020018FD11 /* APP_STORE_SUBMISSION_CHECKLIST.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APP_STORE_SUBMISSION_CHECKLIST.md; sourceTree = "<group>"; };
 		7C6509FF2F5549260018FD11 /* START_HERE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = START_HERE.md; sourceTree = "<group>"; };
 		7C8B59062F5154060040C01C /* Concert App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Concert App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C8B59392F5158A70040C01C /* Concert App .xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Concert App .xcdatamodel"; sourceTree = "<group>"; };
 		7C8B59422F51609B0040C01C /* ConcertApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConcertApp.xcdatamodel; sourceTree = "<group>"; };
 		7C8B59442F51645D0040C01C /* SimplifiedAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplifiedAppView.swift; sourceTree = "<group>"; };
 		7C8B59462F5166260040C01C /* fix_project.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_project.sh; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				7C8B59412F51609B0040C01C /* ConcertApp.xcdatamodeld */,
-				7C8B59382F5158A70040C01C /* ConcertApp.xcdatamodeld */,
 				7C8B59082F5154060040C01C /* Concert App */,
 				7C8B59072F5154060040C01C /* Products */,
 				7C8B59442F51645D0040C01C /* SimplifiedAppView.swift */,
@@ -227,7 +224,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C8B593A2F5158A70040C01C /* ConcertApp.xcdatamodeld in Sources */,
 				7C8B59452F51645D0040C01C /* SimplifiedAppView.swift in Sources */,
 				7C6509F02F54FC490018FD11 /* ConcertExportManager.swift in Sources */,
 				7C6509EA2F54EFED0018FD11 /* FestivalHistoryView.swift in Sources */,
@@ -461,16 +457,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		7C8B59382F5158A70040C01C /* ConcertApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				7C8B59392F5158A70040C01C /* Concert App .xcdatamodel */,
-			);
-			currentVersion = 7C8B59392F5158A70040C01C /* Concert App .xcdatamodel */;
-			path = ConcertApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		7C8B59412F51609B0040C01C /* ConcertApp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
